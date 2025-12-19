@@ -1,0 +1,40 @@
+realinput = "24-46,124420-259708,584447-720297,51051-105889,6868562486-6868811237,55-116,895924-1049139,307156-347325,372342678-372437056,1791-5048,3172595555-3172666604,866800081-866923262,5446793-5524858,6077-10442,419-818,57540345-57638189,2143479-2274980,683602048-683810921,966-1697,56537997-56591017,1084127-1135835,1-14,2318887654-2318959425,1919154462-1919225485,351261-558210,769193-807148,4355566991-4355749498,809094-894510,11116-39985,9898980197-9898998927,99828221-99856128,9706624-9874989,119-335"
+testinput = "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124"
+othertestinput="100000-101010"
+puzzleinput=realinput
+# puzzleinput=realinput
+ranges=puzzleinput.split(",")
+sum=0
+invalids=[]
+
+for i in ranges:
+    start=int(i.split("-")[0])
+    end=int(i.split("-")[1])
+    print(f"Range {i} from {start} to {end}") #-----------------\n
+    for tj in range(start,end+1):
+        lentj=len(str(tj))
+        #print(f"    Number {tj} is length {lentj}")
+        for k in range (2,lentj+1):
+            #print(f"        Checking if divisible into {k} groups... ", end="")
+            if lentj%k==0:
+                chunksize=int(lentj/k)
+                chunks=[]
+                #print(f"Divisible with chunk size {chunksize}")
+                for l in range(0,k+chunksize+chunksize,chunksize):
+                    if not str(tj)[l:l+chunksize] == "":
+                        chunks.append(str(tj)[l:l+chunksize])
+                    else:
+                        break
+                #print(f"            Parts: {chunks}")
+                if len(set(chunks))==1 and not tj in invalids:
+                    print(f"-------{tj} is INVALID-------")
+                    invalids.append(tj)
+                    sum+=tj
+            else:
+                pass
+                #print("Not Divisible")
+        #print("\r\r\r\r")
+    #print("\r")
+
+print(f"Invalid Numbers: {invalids}")
+print(f"Invalid Sum: {sum}")
